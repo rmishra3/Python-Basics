@@ -1,0 +1,30 @@
+import cv2
+import cvzone
+from tkinter.filedialog import askopenfilename
+from tkinter import *
+
+fname = "Unassigned"
+
+def openFile():
+    global fname
+    fname = askopenfilename()
+    #print(fname)
+    root.destroy()
+
+if __name__ == '__main__':
+    root = Tk()
+    root.geometry("200x100")
+    Button(root, text='File Open', command = openFile).pack(fill=X)
+    mainloop()
+    print(fname)
+
+    cap = cv2.VideoCapture(fname)
+    while True:
+        success, img = cap.read()
+        # img = cv2.resize(img, (640,360))
+        cv2.imshow("Image", img)
+        # Break gracefully
+        if cv2.waitKey(10) & 0xFF == ord('q'):
+            break
+    cap.release()
+    cv2.destroyAllWindows()
